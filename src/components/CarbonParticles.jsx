@@ -10,19 +10,24 @@ export default function CarbonParticles({ count = 2000 }) {
   const dummy = useMemo(() => new THREE.Object3D(), []);
   const particles = useMemo(() => {
     const temp = [];
+    let seed = 9_021_733;
+    const rnd = () => {
+      seed = (seed * 1_103_515_245 + 12_345) & 0x7fffffff;
+      return seed / 0x7fffffff;
+    };
     for (let i = 0; i < count; i++) {
-      const t = Math.random() * 100;
-      const factor = 20 + Math.random() * 100;
-      const speed = 0.01 + Math.random() / 200;
-      const xFactor = -50 + Math.random() * 100;
-      const yFactor = -50 + Math.random() * 100;
-      const zFactor = -50 + Math.random() * 100;
+      const t = rnd() * 100;
+      const factor = 20 + rnd() * 100;
+      const speed = 0.01 + rnd() / 200;
+      const xFactor = -50 + rnd() * 100;
+      const yFactor = -50 + rnd() * 100;
+      const zFactor = -50 + rnd() * 100;
       temp.push({ t, factor, speed, xFactor, yFactor, zFactor, mx: 0, my: 0 });
     }
     return temp;
   }, [count]);
 
-  useFrame((state) => {
+  useFrame(() => {
     if (!mesh.current) return;
     
     particles.forEach((particle, i) => {
@@ -51,7 +56,7 @@ export default function CarbonParticles({ count = 2000 }) {
   return (
     <instancedMesh ref={mesh} args={[null, null, count]}>
       <sphereGeometry args={[0.05, 8, 8]} />
-      <meshBasicMaterial color="#39FF14" />
+      <meshBasicMaterial color="#7cf067" toneMapped={false} />
     </instancedMesh>
   );
 }

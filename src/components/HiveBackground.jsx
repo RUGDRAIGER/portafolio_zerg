@@ -2,7 +2,6 @@
 import React, { useRef } from 'react';
 import { useTexture } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
-import * as THREE from 'three';
 
 export default function HiveBackground() {
   const meshRef = useRef();
@@ -25,7 +24,13 @@ export default function HiveBackground() {
     <mesh ref={meshRef} position={[0, 0, -2]}>
       <planeGeometry args={[20, 10]} />
       {/* Usamos BasicMaterial para que se vea sin depender de luces externas por ahora */}
-      <meshBasicMaterial map={texture} transparent opacity={0.8} color="#222" />
+      <meshBasicMaterial
+        map={texture}
+        transparent
+        opacity={0.92}
+        color="#4a3848"
+        toneMapped={false}
+      />
     </mesh>
   );
 }
