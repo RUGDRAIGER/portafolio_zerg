@@ -1,18 +1,16 @@
 // src/App.jsx
 import React, { Suspense, useCallback, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
-import HiveBackground from './components/HiveBackground';
+import HiveColmenaInterior from './components/HiveColmenaInterior';
 import HiveImmersionGroup from './components/HiveImmersionGroup';
 import HiveSectionMotion from './components/HiveSectionMotion';
 import HiveAtmosphere, { HiveFogBackground } from './components/HiveAtmosphere';
 import CarbonParticles from './components/CarbonParticles';
-import HiveZergCursor from './components/HiveZergCursor';
-import SidebarUI from './components/SidebarUI';
+import OverlayMenu from './components/OverlayMenu';
 import './App.css';
 
 function App() {
   const [section, setSection] = useState('inicio');
-  const [canvasHover, setCanvasHover] = useState(false);
 
   const handleNavigate = useCallback((id) => {
     setSection(id);
@@ -20,15 +18,9 @@ function App() {
 
   return (
     <div className="portfolio-container">
-      <SidebarUI onNavigate={handleNavigate} />
+      <OverlayMenu activeId={section} onNavigate={handleNavigate} />
 
-      <div
-        className={`canvas-wrapper${canvasHover ? ' canvas-wrapper--zerg-cursor' : ''}`}
-        data-section={section}
-        onPointerEnter={() => setCanvasHover(true)}
-        onPointerLeave={() => setCanvasHover(false)}
-      >
-        <HiveZergCursor active={canvasHover} />
+      <div className="canvas-wrapper" data-section={section}>
         <Canvas
           camera={{ position: [0, 0, 10], fov: 50 }}
           gl={{ powerPreference: 'high-performance' }}
@@ -37,7 +29,7 @@ function App() {
             <HiveFogBackground />
             <HiveSectionMotion section={section} />
             <HiveImmersionGroup>
-              <HiveBackground />
+              <HiveColmenaInterior section={section} />
               <CarbonParticles count={3000} />
             </HiveImmersionGroup>
             <HiveAtmosphere section={section} />

@@ -12,6 +12,18 @@ html,
   font-family: 'Orbitron', 'Segoe UI', system-ui, sans-serif;
 }
 
+@media (pointer: fine) {
+  .portfolio-container {
+    cursor: url('/img/overlay/puntero.png') 10 4, crosshair;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-container {
+    cursor: auto;
+  }
+}
+
 .canvas-wrapper {
   position: absolute;
   inset: 0;
@@ -20,23 +32,139 @@ html,
   z-index: 1;
 }
 
-.canvas-wrapper--zerg-cursor {
-  cursor: none;
+/* --- Menú overlay (imagen + franjas) --- */
+.overlay-menu-root {
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 40;
+  width: min(44vw, 400px);
+  pointer-events: none;
 }
 
-.hive-zerg-cursor {
-  position: fixed;
-  z-index: 25;
-  width: 26px;
-  height: 26px;
+.overlay-menu-root .overlay-menu,
+.overlay-menu-root .overlay-menu-handle {
+  pointer-events: auto;
+}
+
+.overlay-menu {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  transform: translateX(0);
+  transition:
+    transform 0.55s cubic-bezier(0.32, 0.72, 0.35, 1),
+    filter 0.35s ease;
+  filter: drop-shadow(6px 0 22px rgba(0, 0, 0, 0.55));
+}
+
+.overlay-menu:hover {
+  filter:
+    drop-shadow(6px 0 26px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 18px rgba(80, 255, 120, 0.22))
+    brightness(1.06);
+}
+
+.overlay-menu--retracted {
+  transform: translateX(calc(-100% + 40px));
+}
+
+.overlay-menu__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: left center;
+  user-select: none;
+  pointer-events: none;
+}
+
+.overlay-menu__list {
+  position: absolute;
+  inset: 0;
+  left: 38%;
+  width: 56%;
+  top: 16%;
+  height: 68%;
   margin: 0;
   padding: 0;
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-  filter: drop-shadow(0 0 8px rgba(160, 100, 220, 0.65));
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: stretch;
 }
 
-/* --- Columna lateral orgánica (paso 3) --- */
+.overlay-menu__btn {
+  width: 100%;
+  padding: 0.35rem 0.5rem;
+  border: none;
+  background: transparent;
+  font-family: 'Orbitron', system-ui, sans-serif;
+  font-size: clamp(0.58rem, 1.6vw, 0.78rem);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: rgba(230, 255, 220, 0.92);
+  text-align: center;
+  text-shadow:
+    0 0 10px rgba(0, 0, 0, 0.9),
+    0 0 14px rgba(60, 200, 80, 0.45);
+  cursor: inherit;
+  transition:
+    color 0.2s ease,
+    transform 0.25s ease,
+    text-shadow 0.25s ease,
+    letter-spacing 0.25s ease;
+}
+
+.overlay-menu__btn:hover,
+.overlay-menu__btn:focus-visible {
+  color: #fff;
+  letter-spacing: 0.2em;
+  transform: scale(1.03);
+  text-shadow:
+    0 0 12px rgba(0, 0, 0, 0.85),
+    0 0 22px rgba(120, 255, 140, 0.75);
+  outline: none;
+}
+
+.overlay-menu__btn--active {
+  color: #fff;
+  text-shadow:
+    0 0 14px rgba(120, 255, 160, 0.9),
+    0 0 28px rgba(80, 200, 100, 0.5);
+}
+
+.overlay-menu-handle {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 41;
+  width: 36px;
+  height: 100vh;
+  border: none;
+  padding: 0;
+  cursor: inherit;
+  background: linear-gradient(90deg, rgba(20, 40, 22, 0.55), rgba(10, 8, 14, 0.15));
+}
+
+.overlay-menu-handle:hover,
+.overlay-menu-handle:focus-visible {
+  background: linear-gradient(90deg, rgba(40, 90, 48, 0.45), rgba(10, 8, 14, 0.1));
+  outline: none;
+}
+
+@media (max-width: 720px) {
+  .overlay-menu-root {
+    width: min(88vw, 320px);
+  }
+
+  .overlay-menu__list {
+    left: 34%;
+    width: 60%;
+    font-size: 0.55rem;
+  }
+}
+
+/* --- Columna lateral orgánica (legacy; sin usar en App actual) --- */
 .hive-goo-defs {
   position: absolute;
   width: 0;
