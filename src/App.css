@@ -1,17 +1,63 @@
-/* --- Contenedor principal --- */
+/* === ESTRUCTURA BASE === */
 body,
 html,
-#root,
-.portfolio-container {
+#root {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
-  background-color: #0a0612;
   overflow: hidden;
-  font-family: 'Orbitron', 'Segoe UI', system-ui, sans-serif;
+  font-family: 'Orbitron', 'Rajdhani', system-ui, sans-serif;
 }
 
+.portfolio-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: #000000;
+  overflow: hidden;
+  filter: none;
+}
+
+/* === CAPA DE FONDOS Z-0 === */
+.horizontal-gallery {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  z-index: 0;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.horizontal-gallery::-webkit-scrollbar {
+  display: none;
+}
+
+.gallery-slide {
+  flex: 0 0 100vw;
+  width: 100vw;
+  height: 100vh;
+  scroll-snap-align: start;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: brightness(0.8); /* 20% más oscuro */
+  opacity: 1;
+  mix-blend-mode: normal;
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* === CURSOR PERSONALIZADO === */
 @media (pointer: fine) {
   .portfolio-container {
     cursor: url('/img/overlay/puntero.png') 10 4, crosshair;
@@ -22,14 +68,30 @@ html,
   .portfolio-container {
     cursor: auto;
   }
+  
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
-.canvas-wrapper {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
+/* === CAPA DE PARTÍCULAS Z-20 === */
+.particle-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 20;
+  pointer-events: none;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.particle-canvas {
+  pointer-events: none !important;
+  background: transparent !important;
 }
 
 /* --- Menú overlay (imagen + franjas) --- */
@@ -694,5 +756,356 @@ html,
   .hive-nav__node {
     flex: 1 1 42%;
     min-width: 140px;
+  }
+}
+
+/* --- Overrides overlay2 / fondos / erupciones --- */
+body,
+html,
+#root,
+.portfolio-container {
+  background-color: #0a0a0a;
+}
+
+@media (pointer: fine) {
+  .portfolio-container,
+  .overlay-menu__btn {
+    cursor: url('/img/overlay/puntero.png') 10 4, pointer;
+  }
+}
+
+.overlay-menu-root {
+  position: fixed;
+  left: 4px;
+  top: 0;
+  bottom: 0;
+  z-index: 40;
+  width: min(32vw, 348px);
+  pointer-events: none;
+}
+
+.overlay-menu {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  transform: none !important;
+  filter: drop-shadow(8px 0 28px rgba(0, 0, 0, 0.72));
+  --overlay-shift: -34px;
+}
+
+.overlay-menu__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: left center;
+  user-select: none;
+  pointer-events: none;
+  transform: translateX(var(--overlay-shift));
+}
+
+.overlay-menu__list {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  transform: translateX(var(--overlay-shift));
+}
+
+.overlay-menu__item {
+  position: absolute;
+  left:55.75%;
+  width: 66.8%;
+  transform: translateY(-50%);
+}
+
+.overlay-menu__btn {
+  position: relative;
+  width: 100%;
+  min-height: 1.7rem;
+  padding: 0.14rem 0.24rem;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  color: #edfbea;
+  font-family: 'Orbitron', system-ui, sans-serif;
+  font-size: clamp(0.53rem, 0.82vw, 0.77rem);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-align: center;
+  text-transform: uppercase;
+  text-shadow:
+    0 0 2px #000,
+    0 0 8px rgba(0, 0, 0, 0.92),
+    0 0 14px rgba(26, 77, 26, 0.24);
+}
+
+.overlay-menu__label {
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+  transition:
+    transform 0.18s ease,
+    text-shadow 0.18s ease,
+    filter 0.18s ease;
+}
+
+.overlay-menu__btn--active .overlay-menu__label {
+  color: #fff;
+  text-shadow:
+    0 0 2px #000,
+    0 0 14px rgba(120, 255, 160, 0.9),
+    0 0 28px rgba(80, 200, 100, 0.5);
+}
+
+.overlay-menu__btn:hover .overlay-menu__label,
+.overlay-menu__btn:focus-visible .overlay-menu__label {
+  transform: scale(1.03);
+  filter: saturate(1.16);
+  text-shadow:
+    0 0 2px #000,
+    0 0 10px rgba(255, 110, 255, 0.82),
+    0 0 22px rgba(174, 79, 255, 0.62),
+    0 0 28px rgba(57, 255, 20, 0.24);
+}
+
+.overlay-menu__electricidad {
+  position: absolute;
+  inset: -8px -12px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.overlay-menu__arc {
+  position: absolute;
+  top: 50%;
+  width: 16px;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, #d98cff, #9e46ff, transparent);
+  box-shadow:
+    0 0 6px rgba(204, 107, 255, 0.92),
+    0 0 14px rgba(122, 56, 255, 0.75);
+  opacity: 0;
+  animation: overlay-electricity 0.55s ease-out infinite;
+  transform: translateY(-50%);
+}
+
+.overlay-menu__burst {
+  position: absolute;
+  inset: -18px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.overlay-menu__burst-particle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 999px;
+  background: radial-gradient(circle, #e9ffd9 0%, #7cf067 38%, #39ff14 72%, rgba(57, 255, 20, 0) 100%);
+  box-shadow:
+    0 0 9px rgba(57, 255, 20, 0.95),
+    0 0 18px rgba(57, 255, 20, 0.55);
+  transform: rotate(var(--burst-rotate)) translateY(0);
+  animation: overlay-burst 0.46s ease-out forwards;
+  animation-delay: var(--burst-delay);
+}
+
+.overlay-menu__burst-dust {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 48px;
+  height: 24px;
+  margin: -12px 0 0 -24px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(156, 255, 122, 0.4), rgba(57, 255, 20, 0.1) 55%, transparent 75%);
+  filter: blur(8px);
+  animation: overlay-dust 0.52s ease-out forwards;
+}
+
+@keyframes overlay-electricity {
+  0% {
+    opacity: 0;
+    transform: translateY(-50%) translateX(0) scaleX(0.6);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-50%) translateX(var(--arc-drift)) scaleX(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-50%) translateX(calc(var(--arc-drift) * 0.4)) scaleX(0.5);
+  }
+}
+
+@keyframes overlay-burst {
+  0% {
+    opacity: 0;
+    transform: rotate(var(--burst-rotate)) translateY(0) scale(0.4);
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(var(--burst-rotate)) translateY(-26px) scale(0.3);
+  }
+}
+
+@keyframes overlay-dust {
+  0% {
+    opacity: 0.7;
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.7);
+  }
+}
+
+.hive-eruptions {
+  position: fixed;
+  inset: 0;
+  z-index: 15;
+  pointer-events: none;
+}
+
+.hive-eruption {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+}
+
+.hive-eruption__grease,
+.hive-eruption__vapor,
+.hive-eruption__mist {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.hive-eruption__grease {
+  bottom: 8px;
+  width: 54px;
+  height: 18px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(117, 192, 86, 0.3), rgba(45, 86, 34, 0.06) 68%, transparent 78%);
+  filter: blur(3px);
+  animation: eruption-grease var(--eruption-duration) ease-in-out infinite;
+  animation-delay: var(--eruption-delay);
+}
+
+.hive-eruption__vapor {
+  bottom: 18px;
+  width: 26px;
+  height: 88px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 65%, rgba(192, 214, 208, 0.22), rgba(114, 128, 123, 0.09) 52%, transparent 74%);
+  filter: blur(10px);
+  animation: eruption-vapor var(--eruption-duration) ease-in-out infinite;
+  animation-delay: var(--eruption-delay);
+}
+
+.hive-eruption__mist {
+  bottom: 24px;
+  width: 74px;
+  height: 44px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(180, 210, 202, 0.1), transparent 72%);
+  filter: blur(12px);
+  animation: eruption-mist calc(var(--eruption-duration) * 0.9) ease-in-out infinite;
+  animation-delay: calc(var(--eruption-delay) + 0.3s);
+}
+
+@keyframes eruption-grease {
+  0%,
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.7);
+  }
+  20%,
+  42% {
+    opacity: 0.9;
+    transform: translateX(-50%) scale(1);
+  }
+  70% {
+    opacity: 0.25;
+    transform: translateX(-50%) scale(1.12);
+  }
+}
+
+@keyframes eruption-vapor {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(14px) scale(0.6);
+  }
+  22% {
+    opacity: 0.42;
+  }
+  52% {
+    opacity: 0.28;
+    transform: translateX(-50%) translateY(-18px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-44px) scale(1.25);
+  }
+}
+
+@keyframes eruption-mist {
+  0%,
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.65);
+  }
+  24% {
+    opacity: 0.34;
+  }
+  60% {
+    opacity: 0.14;
+    transform: translateX(-50%) scale(1.2);
+  }
+}
+
+@media (max-width: 900px) {
+  .overlay-menu-root {
+    width: min(38vw, 320px);
+  }
+
+  .overlay-menu {
+    --overlay-shift: -28px;
+  }
+
+  .overlay-menu__item {
+    left: 16%;
+    width: 68%;
+  }
+}
+
+@media (max-width: 720px) {
+  .overlay-menu-root {
+    width: min(56vw, 248px);
+  }
+
+  .overlay-menu {
+    --overlay-shift: -22px;
+  }
+
+  .overlay-menu__item {
+    left: 16%;
+    width: 68%;
+  }
+
+  .overlay-menu__btn {
+    min-height: 1.45rem;
+    font-size: clamp(0.4rem, 1.55vw, 0.6rem);
+    letter-spacing: 0.09em;
   }
 }

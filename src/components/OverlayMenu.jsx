@@ -1,87 +1,121 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 const ITEMS = [
-  { id: 'inicio', label: 'INICIO' },
-  { id: 'proyectos', label: 'PROYECTOS' },
-  { id: 'sobre', label: 'SOBRE MÍ' },
-  { id: 'contacto', label: 'CONTACTO' },
+  { id: 'inicio', label: 'INICIO', top: '62.80%', left: '60%' },
+  { id: 'proyectos', label: 'PROYECTOS', top: '73.80%' },
+  { id: 'sobre', label: 'SOBRE MÍ', top: '84.30%' },
+  { id: 'contacto', label: 'CONTACTO', top: '94.30%' },
 ];
 
-const RETRACT_MS = 480;
+function ElectricidadMorada({ active }) {
+  const arcs = useMemo(
+    () =>
+      Array.from({ length: 18 }, (_, index) => ({
+        id: index,
+        delay: index * 0.035,
+        left: 4 + (index * 5.2) % 92,
+        top: 38 + (index % 5) * 6,
+        drift: (index % 5) * 7 - 12,
+        rotate: (index % 7) * 25 - 50,
+      })),
+    [],
+  );
 
-/**
- * Menú lateral con overlay.png; franjas verdes = títulos.
- * Tras un breve hover se retrae a la izquierda; pestaña o salir al lienzo lo restaura.
- */
+  if (!active) return null;
+
+  return (
+    <span className="overlay-menu__electricidad" aria-hidden>
+      {arcs.map((arc) => (
+        <span
+          key={arc.id}
+          className="overlay-menu__arc"
+          style={{
+            left: `${arc.left}%`,
+            top: `${arc.top}%`,
+            animationDelay: `${arc.delay}s`,
+            '--arc-drift': `${arc.drift}px`,
+            '--arc-rotate': `${arc.rotate}deg`,
+          }}
+        />
+      ))}
+    </span>
+  );
+}
+
+function ExplosionVerde({ burstId }) {
+  if (!burstId) return null;
+
+  return (
+    <span key={burstId} className="overlay-menu__burst" aria-hidden>
+      {Array.from({ length: 30 }, (_, index) => (
+        <span
+          key={index}
+          className="overlay-menu__burst-particle"
+          style={{
+            '--burst-rotate': `${index * 12}deg`,
+            '--burst-delay': `${index * 0.008}s`,
+            '--burst-dist': `${26 + (index % 4) * 4}px`,
+          }}
+        />
+      ))}
+      <span className="overlay-menu__burst-dust" />
+    </span>
+  );
+}
+
 export default function OverlayMenu({ activeId, onNavigate }) {
-  const [retracted, setRetracted] = useState(false);
-  const retractTimer = useRef(null);
+  const [hoverId, setHoverId] = useState(null);
+  const [burstId, setBurstId] = useState(null);
 
-  const clearRetractTimer = useCallback(() => {
-    if (retractTimer.current != null) {
-      window.clearTimeout(retractTimer.current);
-      retractTimer.current = null;
-    }
-  }, []);
-
-  useEffect(() => () => clearRetractTimer(), [clearRetractTimer]);
+  useEffect(() => {
+    if (!burstId) return undefined;
+    const timer = window.setTimeout(() => setBurstId(null), 520);
+    return () => window.clearTimeout(timer);
+  }, [burstId]);
 
   const handleSelect = useCallback(
     (id) => {
+      setBurstId(`${id}-${Date.now()}`);
       onNavigate?.(id);
     },
     [onNavigate],
   );
 
-  const scheduleRetract = useCallback(() => {
-    clearRetractTimer();
-    retractTimer.current = window.setTimeout(() => setRetracted(true), RETRACT_MS);
-  }, [clearRetractTimer]);
-
   return (
     <div className="overlay-menu-root">
-      {retracted ? (
-        <button
-          type="button"
-          className="overlay-menu-handle"
-          aria-label="Mostrar menú de navegación"
-          onPointerEnter={() => {
-            setRetracted(false);
-            clearRetractTimer();
-          }}
-        />
-      ) : null}
-
-      <nav
-        className={`overlay-menu${retracted ? ' overlay-menu--retracted' : ''}`}
-        aria-label="Navegación principal"
-        onPointerEnter={scheduleRetract}
-        onPointerLeave={(e) => {
-          clearRetractTimer();
-          const next = e.relatedTarget;
-          if (next instanceof Node && e.currentTarget.contains(next)) return;
-          setRetracted(false);
-        }}
-      >
+      <nav className="overlay-menu" aria-label="Navegación principal">
         <img
           className="overlay-menu__img"
-          src="/img/overlay/overlay.png"
+          src="/img/overlay/overlay2.png"
           alt=""
           decoding="async"
         />
         <ul className="overlay-menu__list">
-          {ITEMS.map((item) => (
-            <li key={item.id} className="overlay-menu__item">
-              <button
-                type="button"
-                className={`overlay-menu__btn${item.id === activeId ? ' overlay-menu__btn--active' : ''}`}
-                onClick={() => handleSelect(item.id)}
-                aria-current={item.id === activeId ? 'page' : undefined}
+          {ITEMS.map((item) => {
+            const hot = hoverId === item.id;
+            const active = activeId === item.id;
+
+            return (
+              <li
+                key={item.id}
+                className="overlay-menu__item"
+                style={{ top: item.top }}
               >
-                {item.label}
-              </button>
-            </li>
-          ))}
+                <button
+                  type="button"
+                  className={`overlay-menu__btn${active ? ' overlay-menu__btn--active' : ''}`}
+                  onClick={() => handleSelect(item.id)}
+                  onPointerEnter={() => setHoverId(item.id)}
+                  onPointerLeave={() => setHoverId((current) => (current === item.id ? null : current))}
+                  aria-current={active ? 'page' : undefined}
+                >
+                  <span className="overlay-menu__label">{item.label}</span>
+                  <ElectricidadMorada active={hot} />
+                  <ExplosionVerde burstId={burstId && burstId.startsWith(item.id) ? burstId : null} />
+                </button>
+              </li>
+            );
+          })}
         </ul>
       </nav>
     </div>

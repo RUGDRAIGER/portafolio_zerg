@@ -1,0 +1,16 @@
+---
+description: Reglas de oro visuales y de implementación del proyecto
+alwaysApply: true
+---
+
+# Reglas de Oro del Proyecto
+
+1. `src/components/CarbonParticles.jsx` no se modifica bajo ninguna circunstancia sin instrucción explícita del usuario. Es una regla de oro del proyecto.
+
+2. El efecto de luciérnagas verde fluorescente de `src/components/CarbonParticles.jsx` debe preservarse siempre. No se reduce, no se sustituye y no se elimina sin aprobación explícita.
+
+3. Toda la interfaz y todos los textos visibles para el usuario deben mantenerse en español.
+
+4. Cuando se trabajen overlays, fondos o assets visuales del proyecto, se debe respetar la intención estética original del usuario: biomasa Zerg, legibilidad alta y fidelidad visual a los recursos de `img/` y `public/img/`.
+
+5. Antes de alterar sistemas visuales sensibles del proyecto (menú principal, transiciones de fondos, partículas, overlays o cursor), se debe priorizar el ajuste fino sobre los reemplazos drásticos.

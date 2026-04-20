@@ -18,7 +18,7 @@ export default function CarbonParticles({ count = 2000 }) {
     for (let i = 0; i < count; i++) {
       const t = rnd() * 100;
       const factor = 20 + rnd() * 100;
-      const speed = 0.01 + rnd() / 200;
+      const speed = (0.01 + rnd() / 200) * 0.5; // Velocidad reducida a la mitad
       const xFactor = -50 + rnd() * 100;
       const yFactor = -50 + rnd() * 100;
       const zFactor = -50 + rnd() * 100;
@@ -56,7 +56,7 @@ export default function CarbonParticles({ count = 2000 }) {
   return (
     <instancedMesh ref={mesh} args={[null, null, count]}>
       <sphereGeometry args={[0.05, 8, 8]} />
-      <meshBasicMaterial color="#7cf067" toneMapped={false} />
+      <meshBasicMaterial color="#7cf067" />
     </instancedMesh>
   );
 }
