@@ -8,6 +8,10 @@ html,
   height: 100%;
   overflow: hidden;
   font-family: 'Orbitron', 'Rajdhani', system-ui, sans-serif;
+  /* Mejoras para dispositivos táctiles */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  touch-action: pan-x pan-y;
 }
 
 .portfolio-container {
@@ -17,6 +21,10 @@ html,
   background: #000000;
   overflow: hidden;
   filter: none;
+  /* Prevenir selección de texto en móviles */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
 }
 
 /* === CAPA DE FONDOS Z-0 === */
@@ -46,15 +54,45 @@ html,
   height: 100vh;
   scroll-snap-align: start;
   background-size: cover;
-  background-position: center;
+  background-position: center center;
   background-repeat: no-repeat;
-  filter: none; /* Sin filtros - brillo y color original */
+  filter: brightness(0.8); /* 20% más oscuro */
   opacity: 1;
   mix-blend-mode: normal;
   will-change: transform;
   transform: translateZ(0);
   backface-visibility: hidden;
   transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Optimización para diferentes resoluciones de pantalla */
+@media (max-width: 768px) {
+  .gallery-slide {
+    background-size: cover;
+    background-position: center center;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .gallery-slide {
+    background-size: cover;
+    background-position: center center;
+  }
+}
+
+@media (min-width: 1025px) {
+  .gallery-slide {
+    background-size: cover;
+    background-position: center center;
+  }
+}
+
+/* Fondos en pantallas ultra anchas */
+@media (min-width: 2560px) {
+  .gallery-slide {
+    background-size: cover;
+    background-position: center center;
+  }
 }
 
 /* === VIDEO DE TRANSICIÓN === */
@@ -75,7 +113,20 @@ html,
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: center center;
+}
+
+/* Optimización de video en dispositivos móviles */
+@media (max-width: 768px) {
+  .transition-video {
+    object-fit: cover;
+  }
+}
+
+@media (max-width: 480px) {
+  .transition-video-overlay {
+    background: #0a0a0a;
+  }
 }
 
 /* === CURSOR PERSONALIZADO === */
@@ -795,15 +846,16 @@ html,
   }
 }
 
-/* === OVERLAY MENU FIJO (sin responsive) === */
+/* === OVERLAY MENU RESPONSIVO === */
 .overlay-menu-root {
   position: fixed;
   left: 4px;
   top: 0;
   bottom: 0;
   z-index: 40;
-  width: 348px; /* Tamaño fijo sin importar resolución */
+  width: clamp(240px, 28vw, 348px); /* Responsivo: 240px - 348px */
   pointer-events: none;
+  transition: width 0.3s ease;
 }
 
 .overlay-menu {
@@ -834,8 +886,8 @@ html,
 
 .overlay-menu__item {
   position: absolute;
-  left: 194px; /* 55.75% de 348px = ~194px - Posición fija */
-  width: 232px; /* 66.8% de 348px = ~232px - Ancho fijo */
+  left: 55.75%; /* Posición relativa al ancho del menú */
+  width: 66.8%; /* Ancho relativo */
   transform: translateY(-50%);
   pointer-events: auto;
 }
@@ -843,14 +895,14 @@ html,
 .overlay-menu__btn {
   position: relative;
   width: 100%;
-  min-height: 27px; /* 1.7rem ≈ 27px - Altura fija */
-  padding: 2px 4px; /* Padding fijo */
+  min-height: clamp(20px, 2vh, 27px); /* Altura responsiva */
+  padding: clamp(1px, 0.2vh, 3px) clamp(2px, 0.5vw, 5px); /* Padding responsivo */
   border: none;
   border-radius: 0;
   background: transparent;
   color: #edfbea;
   font-family: 'Orbitron', system-ui, sans-serif;
-  font-size: 13px; /* Tamaño de fuente fijo */
+  font-size: clamp(9px, 1.1vw, 13px); /* Tamaño de fuente responsivo */
   font-weight: 700;
   letter-spacing: 0.1em;
   text-align: center;
@@ -860,6 +912,39 @@ html,
     0 0 8px rgba(0, 0, 0, 0.92),
     0 0 14px rgba(26, 77, 26, 0.24);
   cursor: pointer;
+  transition: all 0.25s ease;
+  /* Mejoras para dispositivos táctiles */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Estados hover/active optimizados para touch */
+@media (hover: hover) and (pointer: fine) {
+  .overlay-menu__btn:hover .overlay-menu__label {
+    transform: scale(1.03);
+    filter: saturate(1.16);
+    text-shadow:
+      0 0 2px #000,
+      0 0 10px rgba(255, 110, 255, 0.82),
+      0 0 22px rgba(174, 79, 255, 0.62),
+      0 0 28px rgba(57, 255, 20, 0.24);
+  }
+}
+
+/* Estados activos para dispositivos táctiles */
+@media (hover: none) and (pointer: coarse) {
+  .overlay-menu__btn:active .overlay-menu__label {
+    transform: scale(0.97);
+    filter: saturate(1.16);
+    text-shadow:
+      0 0 2px #000,
+      0 0 10px rgba(255, 110, 255, 0.82),
+      0 0 22px rgba(174, 79, 255, 0.62);
+  }
+  
+  .overlay-menu__btn {
+    min-height: clamp(24px, 3vh, 32px); /* Mayor área de toque en móviles */
+  }
 }
 
 .overlay-menu__label {
@@ -1095,4 +1180,226 @@ html,
   }
 }
 
-/* Media queries para overlay eliminados - tamaño fijo en todas las resoluciones */
+/* === MEDIA QUERIES RESPONSIVOS === */
+
+/* Tablets y pantallas medianas (768px - 1024px) */
+@media (max-width: 1024px) {
+  .overlay-menu-root {
+    left: 2px;
+    width: clamp(200px, 32vw, 280px);
+  }
+
+  .overlay-menu__btn {
+    font-size: clamp(8px, 1.2vw, 11px);
+    min-height: clamp(18px, 2vh, 24px);
+    letter-spacing: 0.08em;
+  }
+
+  .overlay-menu__item {
+    left: 55%;
+    width: 68%;
+  }
+
+  /* Ajustar partículas para tablets */
+  .particle-canvas {
+    opacity: 0.9;
+  }
+}
+
+/* Móviles en modo horizontal (landscape) */
+@media (max-width: 1024px) and (orientation: landscape) {
+  .overlay-menu-root {
+    width: clamp(180px, 25vw, 240px);
+  }
+
+  .overlay-menu__btn {
+    font-size: clamp(7px, 1vw, 10px);
+    padding: clamp(1px, 0.2vh, 2px) clamp(2px, 0.4vw, 4px);
+  }
+
+  .gallery-slide {
+    background-size: cover;
+  }
+}
+
+/* Móviles (hasta 768px) */
+@media (max-width: 768px) {
+  .overlay-menu-root {
+    left: 0;
+    width: clamp(160px, 40vw, 220px);
+  }
+
+  .overlay-menu {
+    filter: drop-shadow(4px 0 18px rgba(0, 0, 0, 0.65));
+  }
+
+  .overlay-menu__btn {
+    font-size: clamp(7px, 1.4vw, 10px);
+    min-height: clamp(16px, 2.2vh, 22px);
+    letter-spacing: 0.06em;
+    padding: clamp(1px, 0.15vh, 2px) clamp(2px, 0.3vw, 3px);
+  }
+
+  .overlay-menu__item {
+    left: 52%;
+    width: 72%;
+  }
+
+  .overlay-menu__label {
+    transform: scale(0.95);
+  }
+
+  /* Reducir intensidad de efectos en móviles */
+  .overlay-menu__electricidad {
+    opacity: 0.7;
+  }
+
+  .overlay-menu__burst-particle {
+    width: 4px;
+    height: 4px;
+  }
+
+  /* Ajustar cursor para móviles */
+  @media (pointer: coarse) {
+    .portfolio-container,
+    .overlay-menu__btn {
+      cursor: default;
+    }
+  }
+
+  /* Optimizar fondos en móviles */
+  .gallery-slide {
+    background-size: cover;
+    background-position: center center;
+  }
+
+  /* Reducir partículas en móviles para mejor performance */
+  .particle-canvas {
+    opacity: 0.75;
+  }
+}
+
+/* Móviles pequeños (hasta 480px) */
+@media (max-width: 480px) {
+  .overlay-menu-root {
+    width: clamp(140px, 45vw, 180px);
+  }
+
+  .overlay-menu__btn {
+    font-size: clamp(6px, 1.6vw, 8px);
+    min-height: clamp(14px, 2.5vh, 18px);
+    letter-spacing: 0.04em;
+    font-weight: 600;
+  }
+
+  .overlay-menu__item {
+    left: 50%;
+    width: 75%;
+  }
+
+  .overlay-menu__electricidad {
+    opacity: 0.5;
+    display: none; /* Ocultar electricidad en móviles pequeños */
+  }
+
+  .overlay-menu__burst-particle {
+    width: 3px;
+    height: 3px;
+  }
+
+  .overlay-menu__burst-dust {
+    width: 32px;
+    height: 16px;
+  }
+
+  /* Fondos optimizados para móviles pequeños */
+  .gallery-slide {
+    background-size: cover;
+  }
+
+  .particle-canvas {
+    opacity: 0.6;
+  }
+}
+
+/* Pantallas muy pequeñas (hasta 375px) */
+@media (max-width: 375px) {
+  .overlay-menu-root {
+    width: clamp(120px, 50vw, 160px);
+  }
+
+  .overlay-menu__btn {
+    font-size: clamp(5px, 1.8vw, 7px);
+    min-height: clamp(12px, 2.8vh, 16px);
+  }
+
+  .overlay-menu__item {
+    left: 48%;
+    width: 78%;
+  }
+}
+
+/* Pantallas grandes (desktop) */
+@media (min-width: 1440px) {
+  .overlay-menu-root {
+    width: clamp(320px, 24vw, 380px);
+  }
+
+  .overlay-menu__btn {
+    font-size: clamp(12px, 0.9vw, 14px);
+    min-height: clamp(26px, 2vh, 30px);
+  }
+}
+
+/* Pantallas ultra anchas (4K, UltraWide) */
+@media (min-width: 2560px) {
+  .overlay-menu-root {
+    width: clamp(360px, 20vw, 420px);
+  }
+
+  .overlay-menu__btn {
+    font-size: clamp(14px, 0.7vw, 16px);
+    min-height: clamp(28px, 1.8vh, 32px);
+  }
+
+  .overlay-menu__item {
+    left: 56%;
+    width: 66%;
+  }
+}
+
+/* Optimización para dispositivos con bajo rendimiento */
+@media (prefers-reduced-motion: reduce) {
+  .overlay-menu__electricidad,
+  .overlay-menu__burst {
+    display: none !important;
+  }
+
+  .overlay-menu__btn,
+  .overlay-menu__label {
+    transition: none !important;
+  }
+
+  .particle-canvas {
+    display: none !important;
+  }
+}
+
+/* Ajustes para modo retrato en móviles */
+@media (max-width: 768px) and (orientation: portrait) {
+  .overlay-menu-root {
+    width: clamp(150px, 42vw, 200px);
+  }
+
+  .gallery-slide {
+    background-size: cover;
+    background-position: center;
+  }
+}
+
+/* Modo oscuro del sistema (opcional) */
+@media (prefers-color-scheme: dark) {
+  .portfolio-container {
+    background: #000000;
+  }
+}

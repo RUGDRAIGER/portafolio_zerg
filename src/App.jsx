@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import HorizontalBackgroundGallery from './components/HorizontalBackgroundGallery';
 import OverlayMenu from './components/OverlayMenu';
 import CarbonParticles from './components/CarbonParticles';
@@ -7,6 +7,35 @@ import './App.css';
 
 function App() {
   const [activeSection, setActiveSection] = useState('nexo');
+  const [particleCount, setParticleCount] = useState(11600);
+
+  // Hook para detectar tamaño de pantalla y ajustar partículas
+  useEffect(() => {
+    const updateParticleCount = () => {
+      const width = window.innerWidth;
+      
+      if (width <= 375) {
+        setParticleCount(2000); // Móviles muy pequeños
+      } else if (width <= 480) {
+        setParticleCount(3000); // Móviles pequeños
+      } else if (width <= 768) {
+        setParticleCount(5000); // Móviles/tablets
+      } else if (width <= 1024) {
+        setParticleCount(7000); // Tablets
+      } else if (width <= 1440) {
+        setParticleCount(9000); // Desktop
+      } else if (width <= 2560) {
+        setParticleCount(11600); // Desktop grande
+      } else {
+        setParticleCount(14000); // 4K/UltraWide
+      }
+    };
+
+    updateParticleCount();
+    window.addEventListener('resize', updateParticleCount);
+    
+    return () => window.removeEventListener('resize', updateParticleCount);
+  }, []);
 
   const handleNavigate = (sectionId) => {
     setActiveSection(sectionId);
@@ -46,7 +75,7 @@ function App() {
           pointerEvents: 'none',
         }}
       >
-        <CarbonParticles count={11600} />
+        <CarbonParticles count={particleCount} />
       </Canvas>
 
       {/* Capa de Menú Z-40: Tu overlay configurado */}
