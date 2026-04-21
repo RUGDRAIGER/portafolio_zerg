@@ -56,7 +56,7 @@ html,
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
-  filter: brightness(0.8); /* 20% más oscuro */
+  filter: none; /* Brillo y color original */
   opacity: 1;
   mix-blend-mode: normal;
   will-change: transform;

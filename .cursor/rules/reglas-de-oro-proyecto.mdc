@@ -14,3 +14,9 @@ alwaysApply: true
 4. Cuando se trabajen overlays, fondos o assets visuales del proyecto, se debe respetar la intención estética original del usuario: biomasa Zerg, legibilidad alta y fidelidad visual a los recursos de `img/` y `public/img/`.
 
 5. Antes de alterar sistemas visuales sensibles del proyecto (menú principal, transiciones de fondos, partículas, overlays o cursor), se debe priorizar el ajuste fino sobre los reemplazos drásticos.
+
+6. **NUNCA realizar ninguna acción sin validación previa del usuario.** Antes de ejecutar cualquier cambio, modificación o implementación, se debe esperar la aprobación explícita del usuario. Esta regla es inquebrantable.
+
+7. **NUNCA guardar cambios, crear commits o subir a GitHub sin validación del usuario.** Todos los cambios deben ser revisados y aprobados explícitamente por el usuario antes de ser guardados o versionados. Esta regla es inquebrantable.
+
+8. **Los commits deben ser simples y concisos.** Los mensajes de commit deben ser directos, claros y breves, describiendo el cambio específico realizado sin elaboraciones extensas.
