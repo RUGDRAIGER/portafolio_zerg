@@ -849,11 +849,12 @@ html,
 /* === OVERLAY MENU RESPONSIVO === */
 .overlay-menu-root {
   position: fixed;
-  left: 4px;
+  left: 0.3vw; /* Relativo al viewport en lugar de píxeles fijos */
   top: 0;
-  bottom: 0;
   z-index: 40;
-  width: clamp(240px, 28vw, 348px); /* Responsivo: 240px - 348px */
+  width: clamp(15vw, 25vw, 28vw); /* Todo en vw para escalar proporcionalmente */
+  height: 100vh;
+  aspect-ratio: 768 / 1376; /* Mantiene proporción exacta de overlay2.png */
   pointer-events: none;
   transition: width 0.3s ease;
 }
@@ -895,22 +896,22 @@ html,
 .overlay-menu__btn {
   position: relative;
   width: 100%;
-  min-height: clamp(20px, 2vh, 27px); /* Altura responsiva */
-  padding: clamp(1px, 0.2vh, 3px) clamp(2px, 0.5vw, 5px); /* Padding responsivo */
+  min-height: 1.8vh; /* Altura relativa al viewport */
+  padding: 0.2vh 0.3vw; /* Todo en unidades relativas al viewport */
   border: none;
   border-radius: 0;
   background: transparent;
   color: #edfbea;
   font-family: 'Orbitron', system-ui, sans-serif;
-  font-size: clamp(9px, 1.1vw, 13px); /* Tamaño de fuente responsivo */
+  font-size: clamp(0.65vw, 0.9vw, 1.1vw); /* Font-size completamente en vw */
   font-weight: 700;
   letter-spacing: 0.1em;
   text-align: center;
   text-transform: uppercase;
   text-shadow:
-    0 0 2px #000,
-    0 0 8px rgba(0, 0, 0, 0.92),
-    0 0 14px rgba(26, 77, 26, 0.24);
+    0 0 0.1vw #000,
+    0 0 0.5vw rgba(0, 0, 0, 0.92),
+    0 0 0.8vw rgba(26, 77, 26, 0.24);
   cursor: pointer;
   transition: all 0.25s ease;
   /* Mejoras para dispositivos táctiles */
@@ -924,10 +925,10 @@ html,
     transform: scale(1.03);
     filter: saturate(1.16);
     text-shadow:
-      0 0 2px #000,
-      0 0 10px rgba(255, 110, 255, 0.82),
-      0 0 22px rgba(174, 79, 255, 0.62),
-      0 0 28px rgba(57, 255, 20, 0.24);
+      0 0 0.1vw #000,
+      0 0 0.6vw rgba(255, 110, 255, 0.82),
+      0 0 1.2vw rgba(174, 79, 255, 0.62),
+      0 0 1.6vw rgba(57, 255, 20, 0.24);
   }
 }
 
@@ -937,13 +938,13 @@ html,
     transform: scale(0.97);
     filter: saturate(1.16);
     text-shadow:
-      0 0 2px #000,
-      0 0 10px rgba(255, 110, 255, 0.82),
-      0 0 22px rgba(174, 79, 255, 0.62);
+      0 0 0.1vw #000,
+      0 0 0.6vw rgba(255, 110, 255, 0.82),
+      0 0 1.2vw rgba(174, 79, 255, 0.62);
   }
   
   .overlay-menu__btn {
-    min-height: clamp(24px, 3vh, 32px); /* Mayor área de toque en móviles */
+    min-height: 2.5vh; /* Mayor área de toque en móviles */
   }
 }
 
@@ -960,9 +961,9 @@ html,
 .overlay-menu__btn--active .overlay-menu__label {
   color: #fff;
   text-shadow:
-    0 0 2px #000,
-    0 0 14px rgba(120, 255, 160, 0.9),
-    0 0 28px rgba(80, 200, 100, 0.5);
+    0 0 0.1vw #000,
+    0 0 0.8vw rgba(120, 255, 160, 0.9),
+    0 0 1.6vw rgba(80, 200, 100, 0.5);
 }
 
 .overlay-menu__btn:hover .overlay-menu__label,
@@ -970,15 +971,15 @@ html,
   transform: scale(1.03);
   filter: saturate(1.16);
   text-shadow:
-    0 0 2px #000,
-    0 0 10px rgba(255, 110, 255, 0.82),
-    0 0 22px rgba(174, 79, 255, 0.62),
-    0 0 28px rgba(57, 255, 20, 0.24);
+    0 0 0.1vw #000,
+    0 0 0.6vw rgba(255, 110, 255, 0.82),
+    0 0 1.2vw rgba(174, 79, 255, 0.62),
+    0 0 1.6vw rgba(57, 255, 20, 0.24);
 }
 
 .overlay-menu__electricidad {
   position: absolute;
-  inset: -8px -12px;
+  inset: -0.5vw -0.8vw; /* Valores relativos en lugar de -8px -12px */
   pointer-events: none;
   z-index: 1;
 }
@@ -986,13 +987,13 @@ html,
 .overlay-menu__arc {
   position: absolute;
   top: 50%;
-  width: 16px;
-  height: 2px;
+  width: 1vw; /* Relativo en lugar de 16px */
+  height: 0.15vw; /* Relativo en lugar de 2px */
   border-radius: 999px;
   background: linear-gradient(90deg, transparent, #d98cff, #9e46ff, transparent);
   box-shadow:
-    0 0 6px rgba(204, 107, 255, 0.92),
-    0 0 14px rgba(122, 56, 255, 0.75);
+    0 0 0.4vw rgba(204, 107, 255, 0.92),
+    0 0 0.9vw rgba(122, 56, 255, 0.75);
   opacity: 0;
   animation: overlay-electricity 0.55s ease-out infinite;
   transform: translateY(-50%);
@@ -1000,7 +1001,7 @@ html,
 
 .overlay-menu__burst {
   position: absolute;
-  inset: -18px;
+  inset: -1.2vw; /* Relativo en lugar de -18px */
   pointer-events: none;
   z-index: 1;
 }
@@ -1009,14 +1010,14 @@ html,
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 6px;
-  height: 6px;
-  margin: -3px 0 0 -3px;
+  width: 0.4vw; /* Relativo en lugar de 6px */
+  height: 0.4vw;
+  margin: -0.2vw 0 0 -0.2vw; /* Relativo en lugar de -3px */
   border-radius: 999px;
   background: radial-gradient(circle, #e9ffd9 0%, #7cf067 38%, #39ff14 72%, rgba(57, 255, 20, 0) 100%);
   box-shadow:
-    0 0 9px rgba(57, 255, 20, 0.95),
-    0 0 18px rgba(57, 255, 20, 0.55);
+    0 0 0.5vw rgba(57, 255, 20, 0.95),
+    0 0 1vw rgba(57, 255, 20, 0.55);
   transform: rotate(var(--burst-rotate)) translateY(0);
   animation: overlay-burst 0.46s ease-out forwards;
   animation-delay: var(--burst-delay);
@@ -1026,12 +1027,12 @@ html,
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 48px;
-  height: 24px;
-  margin: -12px 0 0 -24px;
+  width: 3vw; /* Relativo en lugar de 48px */
+  height: 1.5vw; /* Relativo en lugar de 24px */
+  margin: -0.75vw 0 0 -1.5vw; /* Relativo en lugar de -12px 0 0 -24px */
   border-radius: 50%;
   background: radial-gradient(circle, rgba(156, 255, 122, 0.4), rgba(57, 255, 20, 0.1) 55%, transparent 75%);
-  filter: blur(8px);
+  filter: blur(0.5vw); /* Relativo en lugar de 8px */
   animation: overlay-dust 0.52s ease-out forwards;
 }
 
@@ -1060,7 +1061,7 @@ html,
   }
   100% {
     opacity: 0;
-    transform: rotate(var(--burst-rotate)) translateY(-26px) scale(0.3);
+    transform: rotate(var(--burst-rotate)) translateY(-1.8vw) scale(0.3); /* Relativo en lugar de -26px */
   }
 }
 
@@ -1185,19 +1186,13 @@ html,
 /* Tablets y pantallas medianas (768px - 1024px) */
 @media (max-width: 1024px) {
   .overlay-menu-root {
-    left: 2px;
-    width: clamp(200px, 32vw, 280px);
+    left: 0.2vw;
+    width: clamp(18vw, 28vw, 32vw);
   }
 
   .overlay-menu__btn {
-    font-size: clamp(8px, 1.2vw, 11px);
-    min-height: clamp(18px, 2vh, 24px);
+    font-size: clamp(0.7vw, 1vw, 1.2vw);
     letter-spacing: 0.08em;
-  }
-
-  .overlay-menu__item {
-    left: 55%;
-    width: 68%;
   }
 
   /* Ajustar partículas para tablets */
@@ -1209,16 +1204,11 @@ html,
 /* Móviles en modo horizontal (landscape) */
 @media (max-width: 1024px) and (orientation: landscape) {
   .overlay-menu-root {
-    width: clamp(180px, 25vw, 240px);
+    width: clamp(16vw, 22vw, 26vw);
   }
 
   .overlay-menu__btn {
-    font-size: clamp(7px, 1vw, 10px);
-    padding: clamp(1px, 0.2vh, 2px) clamp(2px, 0.4vw, 4px);
-  }
-
-  .gallery-slide {
-    background-size: cover;
+    font-size: clamp(0.6vw, 0.85vw, 1vw);
   }
 }
 
@@ -1226,23 +1216,16 @@ html,
 @media (max-width: 768px) {
   .overlay-menu-root {
     left: 0;
-    width: clamp(160px, 40vw, 220px);
+    width: clamp(25vw, 35vw, 40vw);
   }
 
   .overlay-menu {
-    filter: drop-shadow(4px 0 18px rgba(0, 0, 0, 0.65));
+    filter: drop-shadow(0.3vw 0 1.2vw rgba(0, 0, 0, 0.65));
   }
 
   .overlay-menu__btn {
-    font-size: clamp(7px, 1.4vw, 10px);
-    min-height: clamp(16px, 2.2vh, 22px);
+    font-size: clamp(0.8vw, 1.2vw, 1.4vw);
     letter-spacing: 0.06em;
-    padding: clamp(1px, 0.15vh, 2px) clamp(2px, 0.3vw, 3px);
-  }
-
-  .overlay-menu__item {
-    left: 52%;
-    width: 72%;
   }
 
   .overlay-menu__label {
@@ -1255,8 +1238,8 @@ html,
   }
 
   .overlay-menu__burst-particle {
-    width: 4px;
-    height: 4px;
+    width: 0.3vw;
+    height: 0.3vw;
   }
 
   /* Ajustar cursor para móviles */
@@ -1265,12 +1248,6 @@ html,
     .overlay-menu__btn {
       cursor: default;
     }
-  }
-
-  /* Optimizar fondos en móviles */
-  .gallery-slide {
-    background-size: cover;
-    background-position: center center;
   }
 
   /* Reducir partículas en móviles para mejor performance */
@@ -1282,19 +1259,13 @@ html,
 /* Móviles pequeños (hasta 480px) */
 @media (max-width: 480px) {
   .overlay-menu-root {
-    width: clamp(140px, 45vw, 180px);
+    width: clamp(30vw, 40vw, 45vw);
   }
 
   .overlay-menu__btn {
-    font-size: clamp(6px, 1.6vw, 8px);
-    min-height: clamp(14px, 2.5vh, 18px);
+    font-size: clamp(1vw, 1.4vw, 1.6vw);
     letter-spacing: 0.04em;
     font-weight: 600;
-  }
-
-  .overlay-menu__item {
-    left: 50%;
-    width: 75%;
   }
 
   .overlay-menu__electricidad {
@@ -1303,18 +1274,13 @@ html,
   }
 
   .overlay-menu__burst-particle {
-    width: 3px;
-    height: 3px;
+    width: 0.25vw;
+    height: 0.25vw;
   }
 
   .overlay-menu__burst-dust {
-    width: 32px;
-    height: 16px;
-  }
-
-  /* Fondos optimizados para móviles pequeños */
-  .gallery-slide {
-    background-size: cover;
+    width: 2.5vw;
+    height: 1.2vw;
   }
 
   .particle-canvas {
@@ -1325,46 +1291,33 @@ html,
 /* Pantallas muy pequeñas (hasta 375px) */
 @media (max-width: 375px) {
   .overlay-menu-root {
-    width: clamp(120px, 50vw, 160px);
+    width: clamp(35vw, 45vw, 50vw);
   }
 
   .overlay-menu__btn {
-    font-size: clamp(5px, 1.8vw, 7px);
-    min-height: clamp(12px, 2.8vh, 16px);
-  }
-
-  .overlay-menu__item {
-    left: 48%;
-    width: 78%;
+    font-size: clamp(1.2vw, 1.6vw, 1.8vw);
   }
 }
 
 /* Pantallas grandes (desktop) */
 @media (min-width: 1440px) {
   .overlay-menu-root {
-    width: clamp(320px, 24vw, 380px);
+    width: clamp(20vw, 24vw, 26vw);
   }
 
   .overlay-menu__btn {
-    font-size: clamp(12px, 0.9vw, 14px);
-    min-height: clamp(26px, 2vh, 30px);
+    font-size: clamp(0.7vw, 0.85vw, 0.95vw);
   }
 }
 
 /* Pantallas ultra anchas (4K, UltraWide) */
 @media (min-width: 2560px) {
   .overlay-menu-root {
-    width: clamp(360px, 20vw, 420px);
+    width: clamp(16vw, 20vw, 22vw);
   }
 
   .overlay-menu__btn {
-    font-size: clamp(14px, 0.7vw, 16px);
-    min-height: clamp(28px, 1.8vh, 32px);
-  }
-
-  .overlay-menu__item {
-    left: 56%;
-    width: 66%;
+    font-size: clamp(0.6vw, 0.7vw, 0.8vw);
   }
 }
 
@@ -1388,7 +1341,7 @@ html,
 /* Ajustes para modo retrato en móviles */
 @media (max-width: 768px) and (orientation: portrait) {
   .overlay-menu-root {
-    width: clamp(150px, 42vw, 200px);
+    width: clamp(28vw, 38vw, 42vw);
   }
 
   .gallery-slide {

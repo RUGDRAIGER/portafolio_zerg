@@ -18,7 +18,7 @@ function ElectricidadMorada({ active }) {
         delay: index * 0.035,
         left: 4 + (index * 5.2) % 92,
         top: 38 + (index % 5) * 6,
-        drift: (index % 5) * 7 - 12,
+        drift: (index % 5) * 0.5 - 0.8, /* Convertido a vw (antes era * 7 - 12 en px) */
         rotate: (index % 7) * 25 - 50,
       })),
     [],
@@ -36,7 +36,7 @@ function ElectricidadMorada({ active }) {
             left: `${arc.left}%`,
             top: `${arc.top}%`,
             animationDelay: `${arc.delay}s`,
-            '--arc-drift': `${arc.drift}px`,
+            '--arc-drift': `${arc.drift}vw`, /* Ahora usa vw */
             '--arc-rotate': `${arc.rotate}deg`,
           }}
         />
@@ -57,7 +57,7 @@ function ExplosionVerde({ burstId }) {
           style={{
             '--burst-rotate': `${index * 12}deg`,
             '--burst-delay': `${index * 0.008}s`,
-            '--burst-dist': `${26 + (index % 4) * 4}px`,
+            '--burst-dist': `${1.8 + (index % 4) * 0.3}vw`, /* Convertido a vw (antes era 26 + (index % 4) * 4 en px) */
           }}
         />
       ))}
