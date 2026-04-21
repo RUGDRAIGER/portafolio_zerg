@@ -48,13 +48,34 @@ html,
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  filter: brightness(0.8); /* 20% más oscuro */
+  filter: none; /* Sin filtros - brillo y color original */
   opacity: 1;
   mix-blend-mode: normal;
   will-change: transform;
   transform: translateZ(0);
   backface-visibility: hidden;
   transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* === VIDEO DE TRANSICIÓN === */
+.transition-video-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 5; /* Por encima de fondos pero por debajo de partículas */
+  background: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.transition-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 /* === CURSOR PERSONALIZADO === */
@@ -774,23 +795,23 @@ html,
   }
 }
 
+/* === OVERLAY MENU FIJO (sin responsive) === */
 .overlay-menu-root {
   position: fixed;
   left: 4px;
   top: 0;
   bottom: 0;
   z-index: 40;
-  width: min(32vw, 348px);
+  width: 348px; /* Tamaño fijo sin importar resolución */
   pointer-events: none;
 }
 
 .overlay-menu {
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   transform: none !important;
   filter: drop-shadow(8px 0 28px rgba(0, 0, 0, 0.72));
-  --overlay-shift: -34px;
 }
 
 .overlay-menu__img {
@@ -801,7 +822,6 @@ html,
   object-position: left center;
   user-select: none;
   pointer-events: none;
-  transform: translateX(var(--overlay-shift));
 }
 
 .overlay-menu__list {
@@ -810,27 +830,27 @@ html,
   margin: 0;
   padding: 0;
   list-style: none;
-  transform: translateX(var(--overlay-shift));
 }
 
 .overlay-menu__item {
   position: absolute;
-  left:55.75%;
-  width: 66.8%;
+  left: 194px; /* 55.75% de 348px = ~194px - Posición fija */
+  width: 232px; /* 66.8% de 348px = ~232px - Ancho fijo */
   transform: translateY(-50%);
+  pointer-events: auto;
 }
 
 .overlay-menu__btn {
   position: relative;
   width: 100%;
-  min-height: 1.7rem;
-  padding: 0.14rem 0.24rem;
+  min-height: 27px; /* 1.7rem ≈ 27px - Altura fija */
+  padding: 2px 4px; /* Padding fijo */
   border: none;
   border-radius: 0;
   background: transparent;
   color: #edfbea;
   font-family: 'Orbitron', system-ui, sans-serif;
-  font-size: clamp(0.53rem, 0.82vw, 0.77rem);
+  font-size: 13px; /* Tamaño de fuente fijo */
   font-weight: 700;
   letter-spacing: 0.1em;
   text-align: center;
@@ -839,6 +859,7 @@ html,
     0 0 2px #000,
     0 0 8px rgba(0, 0, 0, 0.92),
     0 0 14px rgba(26, 77, 26, 0.24);
+  cursor: pointer;
 }
 
 .overlay-menu__label {
@@ -1074,38 +1095,4 @@ html,
   }
 }
 
-@media (max-width: 900px) {
-  .overlay-menu-root {
-    width: min(38vw, 320px);
-  }
-
-  .overlay-menu {
-    --overlay-shift: -28px;
-  }
-
-  .overlay-menu__item {
-    left: 16%;
-    width: 68%;
-  }
-}
-
-@media (max-width: 720px) {
-  .overlay-menu-root {
-    width: min(56vw, 248px);
-  }
-
-  .overlay-menu {
-    --overlay-shift: -22px;
-  }
-
-  .overlay-menu__item {
-    left: 16%;
-    width: 68%;
-  }
-
-  .overlay-menu__btn {
-    min-height: 1.45rem;
-    font-size: clamp(0.4rem, 1.55vw, 0.6rem);
-    letter-spacing: 0.09em;
-  }
-}
+/* Media queries para overlay eliminados - tamaño fijo en todas las resoluciones */

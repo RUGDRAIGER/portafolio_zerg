@@ -6,22 +6,25 @@ import { Canvas } from '@react-three/fiber';
 import './App.css';
 
 function App() {
-  const [activeSection, setActiveSection] = useState('inicio');
+  const [activeSection, setActiveSection] = useState('nexo');
 
   const handleNavigate = (sectionId) => {
     setActiveSection(sectionId);
   };
 
   const sectionToIndex = {
-    'inicio': 0,
-    'proyectos': 1,
-    'sobre': 2,
-    'contacto': 3,
+    'nexo': 0,
+    'embrion': 1,
+    'larva': 2,
+    'crisalida': 3,
+    'zangano': 4,
+    'hidraliscos': 5,
+    'reina': 6,
   };
 
   return (
     <div className="portfolio-container">
-      {/* Capa Base Z-0: Galería horizontal de fondos - DEBE SER LA PRIMERA */}
+      {/* Capa Base Z-0: Galería con transiciones de video */}
       <HorizontalBackgroundGallery activeSection={sectionToIndex[activeSection] || 0} />
 
       {/* Capa de Partículas Z-20: Luciernagas flotantes */}
@@ -46,7 +49,7 @@ function App() {
         <CarbonParticles count={11600} />
       </Canvas>
 
-      {/* Capa de Menú Z-40: Tu overlay configurado - DEBE SER LA ÚLTIMA */}
+      {/* Capa de Menú Z-40: Tu overlay configurado */}
       <OverlayMenu 
         activeId={activeSection} 
         onNavigate={handleNavigate} 

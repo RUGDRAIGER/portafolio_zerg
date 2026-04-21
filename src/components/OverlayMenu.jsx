@@ -1,10 +1,13 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 const ITEMS = [
-  { id: 'inicio', label: 'INICIO', top: '62.80%', left: '60%' },
-  { id: 'proyectos', label: 'PROYECTOS', top: '73.80%' },
-  { id: 'sobre', label: 'SOBRE MÍ', top: '84.30%' },
-  { id: 'contacto', label: 'CONTACTO', top: '94.30%' },
+  { id: 'nexo', label: 'NEXO CENTRAL', top: '20%' },
+  { id: 'embrion', label: 'EMBRIÓN', top: '32%' },
+  { id: 'larva', label: 'LARVA', top: '44%' },
+  { id: 'crisalida', label: 'CRISÁLIDA', top: '56%' },
+  { id: 'zangano', label: 'ZÁNGANO', top: '68%' },
+  { id: 'hidraliscos', label: 'HIDRALISCO', top: '80%' },
+  { id: 'reina', label: 'REINA', top: '92%' },
 ];
 
 function ElectricidadMorada({ active }) {
