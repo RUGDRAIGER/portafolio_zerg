@@ -1356,3 +1356,151 @@ html,
     background: #000000;
   }
 }
+
+/* === BOOTSTRAP OVERLAY MENU - 2 CAPAS: IMAGEN + TEXTO === */
+.bootstrap-overlay-menu {
+  position: fixed;
+  left: 2vw;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 40;
+  width: 15vw; /* Reducido de 20vw a 15vw para que sean más pequeños */
+  max-width: 280px; /* Reducido de 400px a 280px */
+  min-width: 180px; /* Reducido de 250px a 180px */
+}
+
+.menu-item-col {
+  margin-bottom: -10px; /* Margen negativo para superponer los títulos */
+  padding: 0 !important;
+}
+
+.menu-item-stack {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2752 / 1536; /* Mantiene proporción de las imágenes bar_overlay */
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: 0; /* Sin márgenes */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.menu-item-stack:hover {
+  transform: scale(1.05);
+  filter: brightness(1.2);
+}
+
+.menu-item-stack.active {
+  transform: scale(1.08);
+  filter: brightness(1.3) drop-shadow(0 0 1vw rgba(124, 240, 103, 0.8));
+}
+
+/* Las 2 capas apiladas */
+.layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* Capa 1: bar_overlay{N}.png (imagen única de cada item) */
+.layer-bar-overlay {
+  z-index: 1;
+}
+
+.layer-bar-overlay img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Capa 2: Texto (título) */
+.layer-text {
+  z-index: 2;
+}
+
+.menu-text {
+  font-family: 'Orbitron', system-ui, sans-serif;
+  font-size: clamp(0.5vw, 0.75vw, 0.9vw); /* Reducido el tamaño de fuente */
+  font-weight: 700;
+  letter-spacing: 0.1em; /* Reducido letter-spacing */
+  color: #edfbea;
+  text-align: center;
+  text-transform: uppercase;
+  text-shadow:
+    0 0 0.15vw #000,
+    0 0 0.4vw rgba(0, 0, 0, 0.9),
+    0 0 0.6vw rgba(26, 77, 26, 0.5);
+  transition: all 0.25s ease;
+  pointer-events: none;
+}
+
+.menu-item-stack:hover .menu-text {
+  color: #fff;
+  text-shadow:
+    0 0 0.2vw #000,
+    0 0 0.8vw rgba(255, 110, 255, 0.9),
+    0 0 1.2vw rgba(174, 79, 255, 0.7),
+    0 0 1.6vw rgba(57, 255, 20, 0.4);
+  transform: scale(1.05);
+}
+
+.menu-item-stack.active .menu-text {
+  color: #fff;
+  text-shadow:
+    0 0 0.3vw #000,
+    0 0 1vw rgba(120, 255, 160, 1),
+    0 0 1.8vw rgba(80, 200, 100, 0.8);
+  transform: scale(1.1);
+}
+
+/* Responsive ajustes */
+@media (max-width: 1024px) {
+  .bootstrap-overlay-menu {
+    width: 18vw; /* Reducido */
+    left: 1.5vw;
+  }
+
+  .menu-text {
+    font-size: clamp(0.6vw, 0.85vw, 1vw); /* Reducido */
+  }
+}
+
+@media (max-width: 768px) {
+  .bootstrap-overlay-menu {
+    width: 25vw; /* Reducido */
+    left: 1vw;
+  }
+
+  .menu-text {
+    font-size: clamp(0.8vw, 1vw, 1.2vw); /* Reducido */
+  }
+
+  .menu-item-col {
+    margin-bottom: -10px; /* Mantiene superposición en tablets */
+  }
+}
+
+@media (max-width: 480px) {
+  .bootstrap-overlay-menu {
+    width: 35vw; /* Reducido */
+    left: 0.5vw;
+  }
+
+  .menu-text {
+    font-size: clamp(1vw, 1.2vw, 1.4vw); /* Reducido */
+  }
+
+  .menu-item-col {
+    margin-bottom: -8px; /* Superposición en móviles */
+  }
+}

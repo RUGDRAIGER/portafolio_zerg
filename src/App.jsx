@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import HorizontalBackgroundGallery from './components/HorizontalBackgroundGallery';
-import OverlayMenu from './components/OverlayMenu';
+// import OverlayMenu from './components/OverlayMenu'; // Menú antiguo
+import BootstrapOverlayMenu from './components/BootstrapOverlayMenu'; // Nuevo menú con 3 capas
 import CarbonParticles from './components/CarbonParticles';
 import { Canvas } from '@react-three/fiber';
 import './App.css';
@@ -78,11 +79,17 @@ function App() {
         <CarbonParticles count={particleCount} />
       </Canvas>
 
-      {/* Capa de Menú Z-40: Tu overlay configurado */}
+      {/* Capa de Menú Z-40: Nuevo menú con 3 capas apiladas (Bootstrap) */}
+      <BootstrapOverlayMenu 
+        activeId={activeSection} 
+        onNavigate={handleNavigate} 
+      />
+      {/* Menú antiguo (comentado):
       <OverlayMenu 
         activeId={activeSection} 
         onNavigate={handleNavigate} 
       />
+      */}
     </div>
   );
 }
