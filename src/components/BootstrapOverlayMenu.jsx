@@ -14,6 +14,9 @@ const MENU_ITEMS = [
 
 export default function BootstrapOverlayMenu({ activeId, onNavigate }) {
   const [hoverId, setHoverId] = useState(null);
+  
+  // Base URL para GitHub Pages
+  const baseUrl = import.meta.env.BASE_URL || '/';
 
   const handleClick = useCallback(
     (id) => {
@@ -47,7 +50,7 @@ export default function BootstrapOverlayMenu({ activeId, onNavigate }) {
                   {/* Capa 1: bar_overlay{N}.png (única para cada item) */}
                   <div className="layer layer-bar-overlay">
                     <img
-                      src={`/img/overlay/${item.barImage}`}
+                      src={`${baseUrl}img/overlay/${item.barImage}`}
                       alt=""
                       className="img-fluid"
                     />

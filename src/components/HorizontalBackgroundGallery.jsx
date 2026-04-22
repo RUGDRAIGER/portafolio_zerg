@@ -12,6 +12,9 @@ export default function HorizontalBackgroundGallery({ activeSection = 0 }) {
   const [transitionQueue, setTransitionQueue] = useState([]);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   
+  // Base URL para GitHub Pages
+  const baseUrl = import.meta.env.BASE_URL || '/';
+  
   const backgrounds = [1, 2, 3, 4, 5, 6, 7];
 
   useEffect(() => {
@@ -55,8 +58,8 @@ export default function HorizontalBackgroundGallery({ activeSection = 0 }) {
 
     // Configurar y reproducir el video actual
     const videoSrc = currentVideo.reversed 
-      ? `/img/transicion/transicion${currentVideo.num}_reverse.mp4`
-      : `/img/transicion/transicion${currentVideo.num}.mp4`;
+      ? `${baseUrl}img/transicion/transicion${currentVideo.num}_reverse.mp4`
+      : `${baseUrl}img/transicion/transicion${currentVideo.num}.mp4`;
     
     video.src = videoSrc;
     video.playbackRate = transitionQueue.length > 1 ? 2.5 : 1; // 2.5x para saltos múltiples
@@ -101,7 +104,7 @@ export default function HorizontalBackgroundGallery({ activeSection = 0 }) {
             key={num}
             className="gallery-slide"
             style={{
-              backgroundImage: `url(/img/interior_de_la_colmena/fondo${num}.png)`,
+              backgroundImage: `url(${baseUrl}img/interior_de_la_colmena/fondo${num}.png)`,
             }}
           />
         ))}
